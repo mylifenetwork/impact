@@ -14,11 +14,9 @@ export default function Hero() {
   return (
     <HeroWrapper>
       <Contents>
-        <CustomOverTitle>the coolest, saas product you have ever seen</CustomOverTitle>
-        <Heading>Make your life easier with our SaaS</Heading>
+        <Heading>Real-time AI Sign Language Translation</Heading>
         <Description>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, tempora qui. Explicabo voluptate iure ipsum molestias
-          repudiandae perspiciatis nostrum praesentium, unde pariatur tempora magni rem. Necessitatibus facilis obcaecati ratione.
+        We understand the importance of effective communication for the deaf and hard of hearing community, and our app aims to break down barriers and foster understanding. Join us on our mission to make communication accessible to all.
         </Description>
         <CustomButtonGroup>
           <Button onClick={() => setIsModalOpened(true)}>
@@ -32,7 +30,7 @@ export default function Hero() {
         </CustomButtonGroup>
       </Contents>
       <ImageContainer>
-        <HeroIllustration />
+        <img src='/home.png' width='80%'/>
       </ImageContainer>
     </HeroWrapper>
   );
