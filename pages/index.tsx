@@ -20,40 +20,45 @@ export default function Homepage({ posts }: InferGetStaticPropsType<typeof getSt
         <title>{EnvVars.SITE_NAME}</title>
         <meta
           name="description"
-          content="Tempor nostrud velit fugiat nostrud duis incididunt Lorem deserunt est tempor aute dolor ad elit."
+          content="Hong Kong Sign Language AI Translation App"
         />
       </Head>
       <HomepageWrapper>
         <WhiteBackgroundContainer>
           <Hero />
           <Partners />
-          <BasicSection imageUrl="/demo-illustration-1.svg" title="Breaking the communication divide" overTitle="the problem">
+          <BasicSection imageUrl="/4.png" title="The Silent Struggle" overTitle="Overcoming Communication Challenges for the Deaf">
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, quidem error incidunt a doloremque voluptatem porro inventore
-              voluptate quo deleniti animi laboriosam.{' '}
-              <Link href="/help-center">Possimus ullam velit rem itaque consectetur, in distinctio?</Link> Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Soluta repellendus quia quos obcaecati nihil. Laudantium non accusantium, voluptate eum nesciunt
-              at suscipit quis est soluta?
+            There are many communication barriers for the deaf and hard of hearing to obtain information in daily life, 
+            ranging from watching TV at home to hearing public announcements and sitting in lectures. A large proportion of them
+            have difficulty in reading and writing. They are majorly dependent on lip reading - which is also not always available.
             </p>
           </BasicSection>
-          <BasicSection imageUrl="/demo-illustration-2.svg" title="Lorem ipsum dolor sit." overTitle="lorem ipsum" reversed>
+          <BasicSection imageUrl="/2.png" title="Bridging the Divide" overTitle="Addressing the Interpreter Shortage in HK for the Deaf" reversed>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, quidem error incidunt a doloremque voluptatem porro inventore{' '}
-              <strong>voluptate quo deleniti animi laboriosam</strong>. Possimus ullam velit rem itaque consectetur, in distinctio?
+              There are almost a <strong>quarter million people with hearing disabilities in Hong Kong </strong>, with only roughly 50 registered HKSL interpreters
+               for official events, often requiring bookings a month in advance. This limits access to them in cases of emergency, or non-essential usage
+               that is essential to foster inclusive environments. Furthermore, there are only a small number of public events, TV programmes and promotional videos 
+               with sign language translation.
             </p>
+            {/*
             <ul>
               <li>Professional point 1</li>
               <li>Professional remark 2</li>
               <li>Professional feature 3</li>
-            </ul>
+            </ul> 
+            */}
           </BasicSection>
         </WhiteBackgroundContainer>
         <DarkerBackgroundContainer>
           <Cta />
-          <FeaturesGallery />
+          {/*
+          <Cta />
           <Features />
+          <FeaturesGallery />
           <Testimonials />
           <ScrollableBlogPosts posts={posts} />
+          */}
         </DarkerBackgroundContainer>
       </HomepageWrapper>
     </>

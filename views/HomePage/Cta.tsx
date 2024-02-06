@@ -13,11 +13,11 @@ export default function Cta() {
     <CtaWrapper>
       <Container>
         <Stack>
-          <OverTitle>Lorem ipsum dolor sit amet</OverTitle>
-          <SectionTitle>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Temporibus delectus?</SectionTitle>
+          <OverTitle>Break barriers, forge connections</OverTitle>
+          <SectionTitle>Unlock the power of sign language with our HKSL AI translation app.</SectionTitle>
           <Description>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda beatae accusamus deleniti nihil quas tempora numquam, vitae
-            culpa.
+          Join us on a journey
+           of inclusivity and empowerment as we revolutionize the way we communicate.
           </Description>
           <ButtonGroup>
             <NextLink href="#early-access" passHref>

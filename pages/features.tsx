@@ -65,10 +65,12 @@ const FEATURES = [
 
 export default function FeaturesPage() {
   return (
-    <Page title="Features" description="Elit aute do nisi Lorem id ea culpa sint duis eu tempor dolore elit.">
+    <Page title="Features" description="Our HKSL Translation App is packed with features that ensure seamless translation and ease of use.">
       <Wrapper>
+        {/*
         <SectionTitle>Check out this quick introduction</SectionTitle>
         <YoutubeVideo url="https://www.youtube.com/watch?v=BggrpKfqh1c" />
+  */}
         <CustomAutofitGrid>
           {FEATURES.map((singleFeature, idx) => (
             <BasicCard key={singleFeature.title} {...singleFeature} />
