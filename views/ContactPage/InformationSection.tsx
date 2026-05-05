@@ -5,7 +5,13 @@ export default function InformationSection() {
     <Wrapper>
       <h3>Contact Info</h3>
       <p>
-        <span>Email:</span> support@myawesomesaas.com
+        <span>Address:</span> Unit 1025, Building 19W, No. 19 Science Park West Avenue, Hong Kong Science Park, Pak Shek Kok, N.T., Hong Kong
+      </p>
+      <p>
+        <span>Email:</span> admin@impactai.hk
+      </p>
+      <p>
+        <span>Phone:</span> +852 9879 6414
       </p>
     </Wrapper>
   );
