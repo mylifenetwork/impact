@@ -14,23 +14,23 @@ export default function Hero() {
   return (
     <HeroWrapper>
       <Contents>
-        <Heading>Real-time AI Sign Language Translation</Heading>
+        <Heading>Making the Digital World Accessible to Everyone</Heading>
         <Description>
-        We understand the importance of effective communication for the deaf and hard of hearing community, and our app aims to break down barriers and foster understanding. Join us on our mission to make communication accessible to all.
+          Impact AI is building the AI infrastructure for sign language accessibility. Our platform transforms text, speech, and video into natural sign language through AI avatars, enabling organizations to communicate with Deaf communities at scale.
         </Description>
         <CustomButtonGroup>
-          <Button onClick={() => setIsModalOpened(true)}>
+          {/* <Button onClick={() => setIsModalOpened(true)}>
             Subscribe to the newsletter <span>&rarr;</span>
-          </Button>
-          <NextLink href="#whitepaper" passHref>
-            <Button transparent>
-              Features <span>&rarr;</span>
-            </Button>
+          </Button> */}
+          <NextLink href="/product" passHref>
+            <OrangeButton>
+              View Product Demos<span>&rarr;</span>
+            </OrangeButton>
           </NextLink>
         </CustomButtonGroup>
       </Contents>
       <ImageContainer>
-        <img src='/home.png' width='80%'/>
+        <img src='/home01.png' width='160%'/>
       </ImageContainer>
     </HeroWrapper>
   );
@@ -60,11 +60,32 @@ const CustomButtonGroup = styled(ButtonGroup)`
   margin-top: 4rem;
 `;
 
+const OrangeButton = styled(Button)`
+  background: #f28c28;
+  border: 2px solid #f28c28;
+  color: #fff;
+
+  &:hover {
+    transform: scale(1.025);
+    background: #e57f18;
+    border-color: #e57f18;
+  }
+`;
+
 const ImageContainer = styled.div`
   display: flex;
   flex: 1;
   justify-content: flex-end;
   align-items: flex-start;
+  overflow: hidden;
+
+  img {
+    width: 110%;
+    max-width: none;
+    height: auto;
+    display: block;
+    margin-left: auto;
+  }
 
   svg {
     max-width: 45rem;
@@ -73,6 +94,12 @@ const ImageContainer = styled.div`
   ${media('<=desktop')} {
     margin-top: 2rem;
     justify-content: center;
+
+    img {
+      width: 95%;
+      max-width: 45rem;
+    }
+
     svg {
       max-width: 80%;
     }

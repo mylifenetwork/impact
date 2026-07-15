@@ -1,19 +1,35 @@
 import { InferGetStaticPropsType } from 'next';
 import Head from 'next/head';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import BasicSection from 'components/BasicSection';
 import Link from 'components/Link';
 import { EnvVars } from 'env';
 import { getAllPosts } from 'utils/postsFetcher';
 import Cta from 'views/HomePage/Cta';
+import DemoShowcase from 'views/HomePage/DemoShowcase';
 import Features from 'views/HomePage/Features';
 import FeaturesGallery from 'views/HomePage/FeaturesGallery';
 import Hero from 'views/HomePage/Hero';
 import Partners from 'views/HomePage/Partners';
+import PotentialUseCases from 'views/HomePage/PotentialUseCases';
 import ScrollableBlogPosts from 'views/HomePage/ScrollableBlogPosts';
 import Testimonials from 'views/HomePage/Testimonials';
+import Honors from '../views/HomePage/Honors';
 
 export default function Homepage({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (router.query.scrollTo === 'product-demo') {
+      document.getElementById('product-demo')?.scrollIntoView({ block: 'start' });
+      router.replace('/', undefined, { shallow: true, scroll: false });
+    }
+  }, [router]);
+
   return (
     <>
       <Head>
@@ -26,32 +42,29 @@ export default function Homepage({ posts }: InferGetStaticPropsType<typeof getSt
       <HomepageWrapper>
         <WhiteBackgroundContainer>
           <Hero />
-          <Partners />
-          <BasicSection imageUrl="/4.png" title="The Silent Struggle" overTitle="Overcoming Communication Challenges for the Deaf">
+          <PotentialUseCases />
+          {/* <BasicSection imageUrl="/4.png" title="Accessibility is Still Broken" overTitle="Overcoming Communication Challenges for the Deaf">
             <p>
-            There are many communication barriers for the deaf and hard of hearing to obtain information in daily life, 
-            ranging from watching TV at home to hearing public announcements and sitting in lectures. A large proportion of them
-            have difficulty in reading and writing. They are majorly dependent on lip reading - which is also not always available.
+             Over <strong>430 million</strong> people worldwide need hearing rehabilitation; without intervention, this number <strong>will reach 700 million by 2050</strong>. Yet hearing aid coverage in low-income countries is <strong>below 3%</strong>, a huge gap that underscores the urgency of global action.
             </p>
           </BasicSection>
-          <BasicSection imageUrl="/2.png" title="Bridging the Divide" overTitle="Addressing the Interpreter Shortage in HK for the Deaf" reversed>
+          <BasicSection imageUrl="/2.png" title="Widespread Challenge of Accessibility Provision" overTitle="Addressing the Interpreter Shortage for the Deaf" reversed>
             <p>
-              There are almost a <strong>quarter million people with hearing disabilities in Hong Kong </strong>, with only roughly 50 registered HKSL interpreters
-               for official events, often requiring bookings a month in advance. This limits access to them in cases of emergency, or non-essential usage
-               that is essential to foster inclusive environments. Furthermore, there are only a small number of public events, TV programmes and promotional videos 
-               with sign language translation.
+              Organizations face serious difficulties in delivering accessible services — from websites and videos to customer support, healthcare information, government communications, and educational materials. These gaps not only hinder equal access for hundreds of millions but also underscore the urgent need for comprehensive accessibility improvements.
             </p>
-            {/*
+            
             <ul>
               <li>Professional point 1</li>
               <li>Professional remark 2</li>
               <li>Professional feature 3</li>
             </ul> 
-            */}
-          </BasicSection>
+           
+          </BasicSection> */}
         </WhiteBackgroundContainer>
         <DarkerBackgroundContainer>
-          <Cta />
+          <DemoShowcase />
+          <Honors />
+          {/* <Cta /> */}
           {/*
           <Cta />
           <Features />
@@ -59,6 +72,7 @@ export default function Homepage({ posts }: InferGetStaticPropsType<typeof getSt
           <Testimonials />
           <ScrollableBlogPosts posts={posts} />
           */}
+          <Partners />
         </DarkerBackgroundContainer>
       </HomepageWrapper>
     </>
@@ -67,7 +81,7 @@ export default function Homepage({ posts }: InferGetStaticPropsType<typeof getSt
 
 const HomepageWrapper = styled.div`
   & > :last-child {
-    margin-bottom: 15rem;
+    margin-bottom: 6rem;
   }
 `;
 

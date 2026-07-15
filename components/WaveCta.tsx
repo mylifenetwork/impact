@@ -21,14 +21,14 @@ export default function WaveCta() {
       </svg>
       <CtaWrapper>
         <Container>
-          <Title>Say goodbye to language barriers and hello to effortless conversations in sign language. </Title>
+          <Title>Let’s make the World truly accessible. Together. </Title>
           <CustomButtonGroup>
-            <Button onClick={() => setIsModalOpened(true)}>
+            {/* <Button onClick={() => setIsModalOpened(true)}>
               Subscribe to the newsletter <span>&rarr;</span>
-            </Button>
-            <NextLink href="/features" passHref>
+            </Button> */}
+            <NextLink href="/#product-demo" passHref>
               <OutlinedButton transparent>
-                Features <span>&rarr;</span>
+                View Product Demo <span>&rarr;</span>
               </OutlinedButton>
             </NextLink>
           </CustomButtonGroup>
@@ -41,10 +41,10 @@ export default function WaveCta() {
 const CtaWrapper = styled.div`
   background: rgb(var(--secondary));
   margin-top: -1rem;
-  padding-bottom: 16rem;
+  padding-bottom: 8rem;
 
   ${media('<=tablet')} {
-    padding-top: 8rem;
+    padding-top: 6rem;
   }
 `;
 

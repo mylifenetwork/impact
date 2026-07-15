@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
-import { FacebookIcon, LinkedinIcon, TwitterIcon } from 'react-share';
 import styled from 'styled-components';
 import Container from 'components/Container';
+import Logo from 'components/Logo';
 import { media } from 'utils/media';
 
 type SingleFooterListItem = { title: string; href: string };
@@ -11,37 +11,11 @@ type FooterItems = SingleFooterList[];
 
 const footerItems: FooterItems = [
   {
-    title: 'Company',
+    title: 'Useful Links',
     items: [
-      { title: 'Privacy Policy', href: '/privacy-policy' },
-      { title: 'Cookies Policy', href: '/cookies-policy' },
-    ],
-  },
-  {
-    title: 'Product',
-    items: [
-      { title: 'Features', href: '/features' },
-      { title: 'Something', href: '/something' },
-      { title: 'Something else', href: '/something-else' },
-      { title: 'And something else', href: '/and-something-else' },
-    ],
-  },
-  {
-    title: 'Knowledge',
-    items: [
-      { title: 'Blog', href: '/blog' },
+      { title: 'Home', href: '/' },
+      { title: 'Product', href: '/product' },
       { title: 'Contact', href: '/contact' },
-      { title: 'FAQ', href: '/faq' },
-      { title: 'Help Center', href: '/help-center' },
-    ],
-  },
-  {
-    title: 'Something',
-    items: [
-      { title: 'Features2', href: '/features2' },
-      { title: 'Something2', href: '/something2' },
-      { title: 'Something else2', href: '/something-else2' },
-      { title: 'And something else2', href: '/and-something-else2' },
     ],
   },
 ];
@@ -50,32 +24,25 @@ export default function Footer() {
   return (
     <FooterWrapper>
       <Container>
-        <ListContainer>
-          {footerItems.map((singleItem) => (
-            <FooterList key={singleItem.title} {...singleItem} />
-          ))}
-        </ListContainer>
+        <FooterTop>
+          <BrandSection>
+            <LogoWrapper>
+              <Logo />
+            </LogoWrapper>
+            <BrandDescription>
+              Making the Digital World Accessible to Everyone.
+            </BrandDescription>
+          </BrandSection>
+
+          <LinksSection>
+            {footerItems.map((singleItem) => (
+              <FooterList key={singleItem.title} {...singleItem} />
+            ))}
+          </LinksSection>
+        </FooterTop>
+
         <BottomBar>
-          <ShareBar>
-            <NextLink href="https://www.twitter.com/my-saas-startup" passHref>
-              <a>
-                <TwitterIcon size={50} round={true} />
-              </a>
-            </NextLink>
-
-            <NextLink href="https://www.facebook.com/my-saas-startup" passHref>
-              <a>
-                <FacebookIcon size={50} round={true} />
-              </a>
-            </NextLink>
-
-            <NextLink href="https://www.linkedin.com/my-saas-startup" passHref>
-              <a>
-                <LinkedinIcon size={50} round={true} />
-              </a>
-            </NextLink>
-          </ShareBar>
-          <Copyright>&copy; Copyright 2021 My Saas Startup</Copyright>
+          <Copyright>&copy; {new Date().getFullYear()} Impact AI. All rights reserved.</Copyright>
         </BottomBar>
       </Container>
     </FooterWrapper>
@@ -104,17 +71,54 @@ function ListItem({ title, href }: SingleFooterListItem) {
 }
 
 const FooterWrapper = styled.div`
-  padding-top: 10rem;
+  padding-top: 6rem;
   padding-bottom: 4rem;
   background: rgb(var(--secondary));
   color: rgb(var(--textSecondary));
 `;
 
-const ListContainer = styled.div`
+const FooterTop = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 4rem;
+
+  ${media('<=tablet')} {
+    flex-direction: column;
+    gap: 2rem;
+  }
+`;
+
+const BrandSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 40rem;
+`;
+
+const LogoWrapper = styled.div`
+  width: 12rem;
+  height: auto;
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+`;
+
+const BrandDescription = styled.p`
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: rgba(var(--textSecondary), 0.8);
+`;
+
+const LinksSection = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 2rem;
+  width: min(100%, 60rem);
 `;
 
 const ListHeader = styled.p`
@@ -126,21 +130,12 @@ const ListHeader = styled.p`
 const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 5rem;
-  margin-right: 5rem;
+  margin-bottom: 0;
+  margin-right: 0;
+  min-width: 0;
 
   & > *:not(:first-child) {
     margin-top: 1rem;
-  }
-
-  ${media('<=tablet')} {
-    flex: 0 40%;
-    margin-right: 1.5rem;
-  }
-
-  ${media('<=phone')} {
-    flex: 0 100%;
-    margin-right: 0rem;
   }
 `;
 
@@ -150,12 +145,11 @@ const ListItemWrapper = styled.p`
   a {
     text-decoration: none;
     color: rgba(var(--textSecondary), 0.75);
-  }
-`;
+    transition: color 0.2s ease;
 
-const ShareBar = styled.div`
-  & > *:not(:first-child) {
-    margin-left: 1rem;
+    &:hover {
+      color: rgb(var(--textSecondary));
+    }
   }
 `;
 
@@ -165,12 +159,13 @@ const Copyright = styled.p`
 `;
 
 const BottomBar = styled.div`
-  margin-top: 6rem;
+  margin-top: 4rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   ${media('<=tablet')} {
     flex-direction: column;
+    gap: 1rem;
   }
 `;

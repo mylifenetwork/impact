@@ -1,5 +1,5 @@
 export default function Logo({ ...rest }) {
   return (
-    <img src='/impact-logo-orange.png' alt='logo' width="40%"/>
+    <img src='/impact_logo.jpg' alt='logo' width="35%"/>
   );
 }

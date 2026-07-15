@@ -14,16 +14,16 @@ export default function Cta() {
       <Container>
         <Stack>
           <OverTitle>Break barriers, forge connections</OverTitle>
-          <SectionTitle>Unlock the power of sign language with our HKSL AI translation app.</SectionTitle>
+          <SectionTitle> Let’s make the World truly accessible. Together.</SectionTitle>
           <Description>
           Join us on a journey
            of inclusivity and empowerment as we revolutionize the way we communicate.
           </Description>
           <ButtonGroup>
             <NextLink href="#early-access" passHref>
-              <Button>
+              {/* <Button>
                 Subscribe to the newsletter <span>&rarr;</span>
-              </Button>
+              </Button> */}
             </NextLink>
             <NextLink href="#whitepaper" passHref>
               <OutlinedButton transparent>
