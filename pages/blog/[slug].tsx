@@ -9,6 +9,7 @@ import { NonNullableChildrenDeep } from 'types';
 import { formatDate } from 'utils/formatDate';
 import { media } from 'utils/media';
 import { getReadTime } from 'utils/readTime';
+import { getAllPostsSlugs, getSinglePost } from 'utils/postsFetcher';
 import Header from 'views/SingleArticlePage/Header';
 import MetadataHead from 'views/SingleArticlePage/MetadataHead';
 import OpenGraphHead from 'views/SingleArticlePage/OpenGraphHead';
@@ -50,15 +51,16 @@ export default function SingleArticlePage(props: InferGetStaticPropsType<typeof 
   }, []);
 
   const { slug, data } = props;
-  const content = data.getPostsDocument.data.body;
 
-  if (!data) {
+  if (!data?.getPostsDocument?.data) {
     return null;
   }
-  const { title, description, date, tags, imageUrl } = data.getPostsDocument.data as NonNullableChildrenDeep<Posts>;
+
+  const { title, description, date, tags, imageUrl, body } = data.getPostsDocument.data as NonNullableChildrenDeep<Posts>;
+  const content = body ?? '';
   const meta = { title, description, date: date, tags, imageUrl, author: '' };
   const formattedDate = formatDate(new Date(date));
-  const absoluteImageUrl = imageUrl.replace(/\/+/, '/');
+  const absoluteImageUrl = (imageUrl ?? '').replace(/\/+/, '/');
   return (
     <>
       <Head>
@@ -79,37 +81,50 @@ export default function SingleArticlePage(props: InferGetStaticPropsType<typeof 
 }
 
 export async function getStaticPaths() {
-  const postsListData = await staticRequest({
-    query: `
-      query PostsSlugs{
-        getPostsList{
-          edges{
-            node{
-              sys{
-                basename
+  try {
+    const postsListData = await staticRequest({
+      query: `
+        query PostsSlugs{
+          getPostsList{
+            edges{
+              node{
+                sys{
+                  basename
+                }
               }
             }
           }
         }
-      }
-    `,
-    variables: {},
-  });
+      `,
+      variables: {},
+    });
 
-  if (!postsListData) {
+    if (!postsListData) {
+      return {
+        paths: [],
+        fallback: false,
+      };
+    }
+
+    type NullAwarePostsList = { getPostsList: NonNullableChildrenDeep<Query['getPostsList']> };
+    const edges = (postsListData as NullAwarePostsList | null)?.getPostsList?.edges ?? [];
+
     return {
-      paths: [],
+      paths: edges
+        .filter((edge) => edge?.node?.sys?.basename)
+        .map((edge) => ({
+          params: { slug: normalizePostName(edge.node.sys.basename) },
+        })),
+      fallback: false,
+    };
+  } catch (error) {
+    const slugs = getAllPostsSlugs();
+
+    return {
+      paths: slugs.map((slug) => ({ params: { slug } })),
       fallback: false,
     };
   }
-
-  type NullAwarePostsList = { getPostsList: NonNullableChildrenDeep<Query['getPostsList']> };
-  return {
-    paths: (postsListData as NullAwarePostsList).getPostsList.edges.map((edge) => ({
-      params: { slug: normalizePostName(edge.node.sys.basename) },
-    })),
-    fallback: false,
-  };
 }
 
 function normalizePostName(postName: string) {
@@ -134,14 +149,38 @@ export async function getStaticProps({ params }: GetStaticPropsContext<{ slug: s
     }
   `;
 
-  const data = (await staticRequest({
-    query: query,
-    variables: variables,
-  })) as { getPostsDocument: PostsDocument };
+  try {
+    const data = (await staticRequest({
+      query: query,
+      variables: variables,
+    })) as { getPostsDocument: PostsDocument };
 
-  return {
-    props: { slug, variables, query, data },
-  };
+    return {
+      props: { slug, variables, query, data },
+    };
+  } catch (error) {
+    const post = await getSinglePost(slug);
+
+    return {
+      props: {
+        slug,
+        variables,
+        query,
+        data: {
+          getPostsDocument: {
+            data: {
+              title: post.meta.title,
+              description: post.meta.description,
+              date: post.meta.date,
+              tags: post.meta.tags,
+              imageUrl: post.meta.imageUrl,
+              body: post.content,
+            },
+          },
+        },
+      },
+    };
+  }
 }
 
 const CustomContainer = styled(Container)`

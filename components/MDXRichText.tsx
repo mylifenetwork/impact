@@ -6,7 +6,11 @@ import Code from './Code';
 import Link from './Link';
 import Quote from './Quote';
 
-export default function RichText(props: { content: TinaMarkdownContent | TinaMarkdownContent[] }) {
+export default function RichText(props: { content: TinaMarkdownContent | TinaMarkdownContent[] | string }) {
+  if (typeof props.content === 'string') {
+    return <Container>{props.content}</Container>;
+  }
+
   return (
     <Container>
       <TinaMarkdown content={props.content} components={components as Components<{}>} />
