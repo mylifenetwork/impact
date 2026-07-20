@@ -12,6 +12,7 @@ import DemoShowcase from 'views/HomePage/DemoShowcase';
 import Features from 'views/HomePage/Features';
 import FeaturesGallery from 'views/HomePage/FeaturesGallery';
 import Hero from 'views/HomePage/Hero';
+import Background from 'views/HomePage/background';
 import Partners from 'views/HomePage/Partners';
 import PotentialUseCases from 'views/HomePage/PotentialUseCases';
 import ScrollableBlogPosts from 'views/HomePage/ScrollableBlogPosts';
@@ -42,6 +43,8 @@ export default function Homepage({ posts }: InferGetStaticPropsType<typeof getSt
       <HomepageWrapper>
         <WhiteBackgroundContainer>
           <Hero />
+
+          <Background />
           <PotentialUseCases />
           {/* <BasicSection imageUrl="/4.png" title="Accessibility is Still Broken" overTitle="Overcoming Communication Challenges for the Deaf">
             <p>
