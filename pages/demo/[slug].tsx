@@ -22,7 +22,7 @@ export default function DemoPage({ demo }: InferGetStaticPropsType<typeof getSta
   return (
     <>
       <Head>
-        <title>{demo.title} — Product Demo</title>
+        <title>{demo.title} — Solutions Demo</title>
       </Head>
 
       <PageShell>

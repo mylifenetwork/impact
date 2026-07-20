@@ -51,7 +51,7 @@ const PARTNER_LOGOS: PartnerLogo[] = [
 export default function Partners() {
   return (
     <PartnersWrapper>
-      <Title>Trusted Partners</Title>
+      <Title>Trusted by Leading Organizations</Title>
       <Collage>
         {PARTNER_LOGOS.map((logo, index) => (
           <LogoCard key={logo.label} href={logo.href} target="_blank" rel="noreferrer" $size={logo.size} $index={index}>

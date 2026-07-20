@@ -24,13 +24,13 @@ export default function Hero() {
           </Button> */}
           <NextLink href="/product" passHref>
             <OrangeButton>
-              View Product Demos<span>&rarr;</span>
+              View Solutions Demos<span>&rarr;</span>
             </OrangeButton>
           </NextLink>
         </CustomButtonGroup>
       </Contents>
       <ImageContainer>
-        <img src='/home01.png' width='160%'/>
+        <img src='/home02.png' width='60%'/>
       </ImageContainer>
     </HeroWrapper>
   );
@@ -61,14 +61,14 @@ const CustomButtonGroup = styled(ButtonGroup)`
 `;
 
 const OrangeButton = styled(Button)`
-  background: #f28c28;
-  border: 2px solid #f28c28;
+  background: #9b04b3;
+  border: 2px solid #9b04b3;
   color: #fff;
 
   &:hover {
     transform: scale(1.025);
-    background: #e57f18;
-    border-color: #e57f18;
+    background: #7d0290;
+    border-color: #7d0290;
   }
 `;
 

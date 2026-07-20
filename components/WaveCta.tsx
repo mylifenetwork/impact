@@ -28,7 +28,7 @@ export default function WaveCta() {
             </Button> */}
             <NextLink href="/#product-demo" passHref>
               <OutlinedButton transparent>
-                View Product Demo <span>&rarr;</span>
+                View Solutions Demos <span>&rarr;</span>
               </OutlinedButton>
             </NextLink>
           </CustomButtonGroup>

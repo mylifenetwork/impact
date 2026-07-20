@@ -10,7 +10,7 @@ export default function ProductPage() {
   return (
     <>
       <Head>
-        <title>Product — Demos</title>
+        <title>Solutions — Demos</title>
       </Head>
       <Page>
         <Container>
@@ -22,7 +22,7 @@ export default function ProductPage() {
                 </Button>
               </BackAnchor>
             </NextLink>
-            <Title>Product Demos</Title>
+            <Title>Solutions Demos</Title>
           </TopRow>
           <Intro>We currently provide services to major financial institutions in Hong Kong, such as HSBC and Standard Chartered. Our model can be applied across a range of areas, such as web pages, videos and documents.</Intro>
 

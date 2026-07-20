@@ -14,7 +14,7 @@ const footerItems: FooterItems = [
     title: 'Useful Links',
     items: [
       { title: 'Home', href: '/' },
-      { title: 'Product', href: '/product' },
+      { title: 'Solutions', href: '/product' },
       { title: 'Contact', href: '/contact' },
     ],
   },

@@ -5,9 +5,14 @@ import Button from 'components/Button';
 import Container from 'components/Container';
 import { media } from 'utils/media';
 
-export type DemoSlug = 'pdf-translation' | 'video-translation' | 'website-translation';
+export type DemoSlug =
+  | 'pdf-translation'
+  | 'video-translation'
+  | 'website-translation';
 
-export const DEMO_OPTIONS: Array<{
+type MediaType = 'video' | 'iframe';
+
+type DemoOption = {
   slug: DemoSlug;
   title: string;
   description: string;
@@ -15,7 +20,10 @@ export const DEMO_OPTIONS: Array<{
   detailHref: string;
   videoSrc: string;
   poster: string;
-}> = [
+  mediaType: MediaType;
+};
+
+export const DEMO_OPTIONS: DemoOption[] = [
   {
     slug: 'website-translation',
     title: 'Website Translation',
@@ -27,8 +35,9 @@ Users can adjust the video size and playback speed based on their needs. The fea
 
 With just one click, users can access online banking security tips in sign language. This simple and practical design helps remove information barriers and supports a more inclusive digital banking experience.`,
     detailHref: '/demo/website-translation',
-    videoSrc: '/demo/SCB_website_demo.mp4',
+    videoSrc: 'https://drive.google.com/file/d/1mUaEYme0oSk82W5AAjRveEdz-kuf1FrJ/preview',
     poster: '/website.png',
+    mediaType: 'iframe',
   },
   {
     slug: 'video-translation',
@@ -41,8 +50,9 @@ This allows Deaf and hard-of-hearing viewers to watch the original video while r
 
 This thoughtful design uses technology to break down communication barriers. It reflects the brand’s commitment to inclusive services and ensures that every brand story can reach a wider audience.`,
     detailHref: '/demo/video-translation',
-    videoSrc: '/demo/HSBC_story.mp4',
+    videoSrc: 'https://drive.google.com/file/d/1sFs2iEN4qCn62BTLZ7kB9U5bA_e2RPit/preview',
     poster: '/video.jpg',
+    mediaType: 'iframe',
   },
   {
     slug: 'pdf-translation',
@@ -56,49 +66,107 @@ The system brings text recognition, PDF preview, translation management, and dig
 Powered by AI text understanding, sign language grammar conversion, and digital-human video generation, the system helps organizations turn financial service information, public announcements, educational materials, and corporate documents into sign language content. This makes information easier for Deaf and hard-of-hearing users to understand. It also reduces communication barriers, improves accessibility, and supports a more inclusive digital service experience.
 `,
     detailHref: '/demo/pdf-translation',
-    videoSrc: '/demo/PDF_upload.mp4',
+    videoSrc: 'https://drive.google.com/file/d/1RIoKFDmr-iwg0X25BVd1Mnex2brKF5G8/preview',
     poster: '/pdf.jpg',
+    mediaType: 'iframe',
   },
 ];
 
 export default function DemoShowcase() {
-  const [activeDemo, setActiveDemo] = useState(DEMO_OPTIONS[0]);
+  const [activeDemo, setActiveDemo] = useState<DemoOption>(
+    DEMO_OPTIONS[0],
+  );
+
+  // 控制 Google Drive 视频是否已经开始加载
+  const [driveVideoStarted, setDriveVideoStarted] = useState(false);
+
+  const handleDemoChange = (demo: DemoOption) => {
+    setActiveDemo(demo);
+
+    // 每次切换 Demo 时，重新显示封面
+    setDriveVideoStarted(false);
+  };
+
+  const getDriveAutoplayUrl = (url: string) => {
+    return `${url}${url.includes('?') ? '&' : '?'}autoplay=1`;
+  };
 
   return (
     <DemoSection id="product-demo">
-      <SectionTitle>Product Demo</SectionTitle>
+      <SectionTitle>Solutions Demo</SectionTitle>
+
       <DemoCard>
         <TabsBar role="tablist" aria-label="Demo selector">
-          {DEMO_OPTIONS.map((demo) => (
-            <TabButton
-              key={demo.slug}
-              type="button"
-              role="tab"
-              aria-selected={demo.slug === activeDemo.slug}
-              $active={demo.slug === activeDemo.slug}
-              onClick={() => setActiveDemo(demo)}
-            >
-              {demo.title}
-            </TabButton>
-          ))}
+          {DEMO_OPTIONS.map((demo) => {
+            const isActive = demo.slug === activeDemo.slug;
+
+            return (
+              <TabButton
+                key={demo.slug}
+                type="button"
+                role="tab"
+                aria-selected={isActive}
+                aria-controls="active-demo-video"
+                $active={isActive}
+                onClick={() => handleDemoChange(demo)}
+              >
+                {demo.title}
+              </TabButton>
+            );
+          })}
         </TabsBar>
 
-        <VideoPanel>
+        <VideoPanel id="active-demo-video">
           <VideoFrame>
-            <Video
-              key={activeDemo.slug}
-              controls
-              playsInline
-              preload="metadata"
-              poster={activeDemo.poster}
-            >
-              <source src={activeDemo.videoSrc} type="video/mp4" />
-            </Video>
+            {activeDemo.mediaType === 'iframe' ? (
+              driveVideoStarted ? (
+                <DriveVideo
+                  key={activeDemo.slug}
+                  src={getDriveAutoplayUrl(activeDemo.videoSrc)}
+                  title={`${activeDemo.title} demo video`}
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <DrivePosterButton
+                  type="button"
+                  aria-label={`Play ${activeDemo.title} demo video`}
+                  onClick={() => setDriveVideoStarted(true)}
+                >
+                  <DrivePoster
+                    src={activeDemo.poster}
+                    alt={`${activeDemo.title} video cover`}
+                  />
+
+                  <PosterOverlay />
+
+                  <PlayButton aria-hidden="true">
+                    <PlayTriangle />
+                  </PlayButton>
+                </DrivePosterButton>
+              )
+            ) : (
+              <Video
+                key={activeDemo.slug}
+                controls
+                playsInline
+                preload="metadata"
+                poster={activeDemo.poster}
+              >
+                <source
+                  src={activeDemo.videoSrc}
+                  type="video/mp4"
+                />
+
+                Your browser does not support video playback.
+              </Video>
+            )}
           </VideoFrame>
         </VideoPanel>
 
         <SummaryRow>
           <SummaryText>{activeDemo.description}</SummaryText>
+
           <NextLink href={activeDemo.detailHref} passHref>
             <Button transparent>
               View demo details <span>&rarr;</span>
@@ -199,11 +267,102 @@ const VideoFrame = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.08);
 `;
 
+const DriveVideo = styled.iframe`
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+`;
+
 const Video = styled.video`
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+`;
+
+const DrivePosterButton = styled.button`
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 3px solid rgb(var(--primary));
+    outline-offset: -3px;
+  }
+
+  &:hover img {
+    transform: scale(1.02);
+  }
+
+  &:hover > span:last-child {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+`;
+
+const DrivePoster = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+`;
+
+const PosterOverlay = styled.span`
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  transition: background 0.25s ease;
+
+  ${DrivePosterButton}:hover & {
+    background: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const PlayButton = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 7.2rem;
+  height: 7.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease;
+
+  ${media('<=tablet')} {
+    width: 5.8rem;
+    height: 5.8rem;
+  }
+`;
+
+const PlayTriangle = styled.span`
+  width: 0;
+  height: 0;
+  margin-left: 0.5rem;
+  border-top: 1.2rem solid transparent;
+  border-bottom: 1.2rem solid transparent;
+  border-left: 1.9rem solid white;
+
+  ${media('<=tablet')} {
+    border-top-width: 1rem;
+    border-bottom-width: 1rem;
+    border-left-width: 1.6rem;
+  }
 `;
 
 const SummaryRow = styled.div`

@@ -83,10 +83,10 @@ export default function Honors() {
   return (
     <HonorsSection>
       <Header>
-        <Title>Recognition</Title>
-        <Description>
+        <Title>Our Journey</Title>
+        {/* <Description>
           A simple carousel showing our recognition, invited talks, and outreach activities. It advances automatically every few seconds, and you can still use the arrows to browse manually.
-        </Description>
+        </Description> */}
       </Header>
 
       <CarouselShell>
